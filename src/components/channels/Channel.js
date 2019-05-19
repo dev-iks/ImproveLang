@@ -13,7 +13,7 @@ class Channel extends Component {
     
     render() {
         const {channel, activeChannel} = this.props
-        const active = channel === activeChannel ? 'active' : ''
+        const active = channel === activeChannel ? 'activeChannel' : ''
 
         return (
             <li className={active}>

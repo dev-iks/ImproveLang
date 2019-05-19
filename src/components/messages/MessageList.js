@@ -5,11 +5,13 @@ import PropTypes from 'prop-types';
 class MessageList extends Component {
 
   render() {
+    let {user} = this.props;
+
     return (
       <ul>{
         this.props.messages.map( message => {
           return(
-            <Message key={message.id} message={message} />
+            <Message key={message.id} message={message} user={user} />
           )
         })
       }</ul>
@@ -19,7 +21,7 @@ class MessageList extends Component {
 }
 
 MessageList.propTypes = {
-  messages: PropTypes.array.isRequired
+  messages: PropTypes.array.isRequired,
 }
 
 export default MessageList

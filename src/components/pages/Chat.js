@@ -19,7 +19,7 @@ class Chat extends Component {
     }
 
     onChangeData(data) {
-        console.log(data);
+        // console.log(data);
     }
 
     toggleSettingsModal() {
