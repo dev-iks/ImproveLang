@@ -3,26 +3,37 @@ import { Link, Redirect } from 'react-router-dom';
 import ChannelSection from '../channels/ChannelSection';
 import MessageSection from '../messages/MessageSection';
 import UserSection from '../users/UserSection';
+import ModalSettings from "../Modals/ModalSettings";
 
 class Chat extends Component {
-    // constructor(props) {
-    //     super(props);
-    //     this.state = {
-    //         user: {}
-    //     };
-    // }
+    constructor(props) {
+        super(props);
+        this.state = {
+            isOpen: false,
+        };
+    }
 
     onClick(e) {
 
+        
+    }
+
+    onChangeData(data) {
+        console.log(data);
+    }
+
+    toggleSettingsModal() {
+        this.setState({
+            isOpen: !this.state.isOpen
+        });
     }
 
     render() {
         const { user } = this.props;
-        console.log(user)
         if (this.props.redirect) {
             this.setState({redirect: false});
             return (
-                <Redirect to={'home'}/>
+                <Redirect to={'/'}/>
             )
         }
 
@@ -59,7 +70,7 @@ class Chat extends Component {
                                         </span>
                                     </button>
                                     <div className="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                                        <button className="dropdown-item">Account Settings</button>
+                                        <button className="dropdown-item" data-toggle="modal" data-target="#settingsModal" onClick={this.toggleSettingsModal.bind(this)}>Account Settings</button>
                                         <button className="dropdown-item">Another action</button>
                                         <div className="dropdown-divider"></div>
                                         <button className="dropdown-item" onClick={this.props.onClickLogout}>Logout</button>
@@ -110,9 +121,9 @@ class Chat extends Component {
                             </ul>
                         </div>
                         <ChannelSection
-                        {...this.props}
-                        addChannel={this.props.addChannel}
-                        setChannel={this.props.setChannel}
+                            {...this.props}
+                            addChannel={this.props.addChannel}
+                            setChannel={this.props.setChannel}
                         />
                         <UserSection
                             {...this.props}
@@ -121,9 +132,10 @@ class Chat extends Component {
                     </div>
                 </div>
                 <MessageSection
-                {...this.props}
+                    {...this.props}
                     addMessage={this.props.addMessage}
                 />
+                <ModalSettings onChangeData={this.onChangeData.bind(this)} show={this.state.isOpen} onClose={this.toggleSettingsModal.bind(this)} />
             </div>
         )
     }

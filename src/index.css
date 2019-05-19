@@ -88,7 +88,7 @@ code {
   flex-basis: 100%;
 }
 
-.active {
+.activeChannel {
   background-color: #E8E8E8;
 }
 
@@ -165,6 +165,7 @@ a{
   border: 1px solid rgba(0,0,0,.125);
   border-radius: .25rem;
   height: 30vh;
+  margin-top: 150px;
 }
 
 /* Left main nav*/
@@ -221,7 +222,7 @@ a{
 header.masthead {
   position: relative;
   width: 100%;
-  height: 100vh;
+  /* height: 100vh; */
   padding-top: 150px;
   padding-bottom: 100px;
   color: #fff;
@@ -252,8 +253,8 @@ header.masthead .device-container .screen img {
 
 @media (min-width: 992px) {
   header.masthead {
-    height: 100vh;
-    min-height: 775px;
+    /* height: 100vh; */
+    min-height: 1000px;
     padding-top: 0;
     padding-bottom: 0;
   }
@@ -379,6 +380,10 @@ a:focus, a:hover {
   width: 18px;
 }
 
+.f-white {
+  color: #E8E8E8;
+}
+
 .user__picture {
   width: 36px;
   height: 36px;
@@ -426,4 +431,110 @@ button.style--none {
 
 .sidebar-left li.active .sidebar-item {
   background: rgba(255, 255, 255, 0.1);
+}
+
+.no-bg {
+  background: none;
+}
+
+.modal .modal-header {
+  background: rgb(17, 83, 171);
+}
+
+.modal .modal-body {
+  margin: 0 auto;
+  min-height: calc(100% - 62px);
+  padding: 0;
+}
+
+.modal-body {
+  max-height: calc(90vh - 62px);
+  overflow: auto;
+  padding: 20px 15px;
+}
+
+.settings-table {
+  display: table;
+  margin: 0 auto;
+  max-width: 1000px;
+  table-layout: fixed;
+  width: 100%;
+  height: 100%;
+}
+
+.settings-table .settings-links {
+  width: 180px;
+}
+
+.modal-body {
+  height: 200px;
+  overflow: hidden;
+}
+
+
+.modal .settings-table > div {
+  display: table-cell;
+  vertical-align: top;
+}
+
+.modal .settings-table .settings-content {
+  padding: 0 20px 30px;
+}
+
+.modal .settings-table > div {
+  display: table-cell;
+  vertical-align: top;
+}
+
+.settings-table .settings-links {
+  background: #007bff;
+}
+
+.settings-table .settings-links {
+  width: 180px;
+  color: #E8E8E8;
+}
+
+/* .settings-table {
+  width: 500px;
+  min-width: 400px;
+} */
+
+.settings-table .nav {
+  position: fixed;
+  width: 179px;
+}
+
+.iconStyle {
+  width: 21px;
+  height: 21px;
+}
+
+#generalLi {
+  width: 100%;
+  border-radius: 0.1rem;
+  padding: 5px 0;
+  color: #fff;
+  font-weight: 500;
+}
+
+.active {
+  background: rgb(58, 119, 199);
+}
+
+.modal .nav-pills > li {
+  margin: 0;
+}
+.modal .settings-modal li {
+  list-style: none;
+}
+.nav-stacked > li {
+  float: none;
+}
+.nav-pills > li {
+  float: left;
+}
+.nav > li {
+  position: relative;
+  display: block;
 }

@@ -29,7 +29,7 @@ class Home extends Component {
                     <div className="container h-75">
                         <div className="row h-75">
                             <div className="col-lg-12 my-auto">
-                                <div className="header-content mx-auto">
+                                <div className="header-content mx-auto mt-5">
                                     <h1 className="mb-5">Hello, {name}! Welcome to ImproveLang App. Let's find you some friends!</h1>
                                     <Link to={'/signup'} className="link btn btn-outline btn-xl">
                                         Start Now for Free!

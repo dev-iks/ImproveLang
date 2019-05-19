@@ -49,7 +49,6 @@ class App extends Component {
             console.log(msg)
         } else {
             let user = msg
-            console.log(user)
             this.setState({user: user})
         }
     }
@@ -60,10 +59,12 @@ class App extends Component {
 
     onSignupGoogle(user) {
         this.socket.emit('google signup', user)
+        this.onCheckLogin();
     }
 
     onLoginGoogle(user) {
         this.socket.emit('google login', user)
+        this.onCheckLogin();
     }
 
     onMessageAdd(message) {
@@ -79,7 +80,6 @@ class App extends Component {
             // user: user,
             users: users
         });
-        this.onCheckLogin();
     }
 
     onEditUser(editUser) {
@@ -149,8 +149,8 @@ class App extends Component {
         }
     }
 
-    onClick(e) {
-
+    onSubmitContactForm(formValues) {
+        this.socket.emit('send contact-form', formValues);
     }
 
     onClickLogout(e) {
@@ -167,7 +167,9 @@ class App extends Component {
                     <div>
                         <Route exact path="/" component={Home} />
                         <Route exact path="/tips" component={Tips} />
-                        <Route exact path="/contact" component={Contact} />
+                        <Route exact path="/contact" render={props => (
+                            <Contact onSubmitContactForm={this.onSubmitContactForm.bind(this)} />
+                            )} />
                         <Route exact path="/login" render={props => (
                             <React.Fragment>
                                 <Login {...this.state}
@@ -182,25 +184,22 @@ class App extends Component {
                         )}/>
                     </div>
                     <div>
-                        <Route path="/signup" render={props => (
-                            <React.Fragment>
+                        <Route exact path="/signup" render={props => (
                                 <Signup {...this.state}
                                         onSignupGoogle={this.onSignupGoogle.bind(this)}
                                 />
-                            </React.Fragment>
                         )} />
                     </div>
                     <div>
-                        <Route path="/chat" >
-                                <Chat   {...this.state}
-                                    onClickLogout={this.onClickLogout.bind(this)} 
-                                    addChannel={this.addChannel.bind(this)}
-                                    setChannel={this.setChannel.bind(this)}
-                                    setUserName={this.setUserName.bind(this)}
-                                    addMessage={this.addMessage.bind(this)}
-                                />
-                    
-                    </Route>
+                        <Route exact path="/chat" render={props => (
+                            <Chat   {...this.state}
+                                onClickLogout={this.onClickLogout.bind(this)} 
+                                addChannel={this.addChannel.bind(this)}
+                                setChannel={this.setChannel.bind(this)}
+                                setUserName={this.setUserName.bind(this)}
+                                addMessage={this.addMessage.bind(this)} 
+                            />
+                        )}/>
                     </div>
                 </div>
             </Router>
