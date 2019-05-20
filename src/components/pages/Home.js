@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 import Header from "./Header";
+import willSmith from "../../assets/img/Will_Smith.jpg";
 
 
 class Home extends Component {
@@ -47,7 +48,7 @@ class Home extends Component {
                                         they want to tell you you can’t do it. You want something, go get it.
                                     </blockquote>
                                     <span className="border border-dark">
-                                    <img src={"https://urlzs.com/261g6"} className={'rounded-circle'} alt="Will Smith"/>
+                                    <img src={willSmith} className={'rounded-circle'} alt="Will Smith"/>
                                     </span>
                                 </div>
                             </div>
