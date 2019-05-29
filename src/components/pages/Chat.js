@@ -4,6 +4,7 @@ import ChannelSection from '../channels/ChannelSection';
 import MessageSection from '../messages/MessageSection';
 import UserSection from '../users/UserSection';
 import ModalSettings from "../Modals/ModalSettings";
+import ModalMoreChannels from '../Modals/ModalMoreChannels';
 
 class Chat extends Component {
     constructor(props) {
@@ -13,16 +14,11 @@ class Chat extends Component {
         };
     }
 
-    onClick(e) {
-
-        
-    }
-
     onChangeData(data) {
         // console.log(data);
     }
 
-    toggleSettingsModal() {
+    toggleModal() {
         this.setState({
             isOpen: !this.state.isOpen
         });
@@ -30,6 +26,7 @@ class Chat extends Component {
 
     render() {
         const { user } = this.props;
+        const { isOpen } = this.state; 
         if (this.props.redirect) {
             this.setState({redirect: false});
             return (
@@ -50,7 +47,7 @@ class Chat extends Component {
                                         <span>@{user.username}</span>
                                     </div>
                                 </div>
-                                <div onClick={this.onClick.bind(this)}>
+                                <div>
                                     <button className="dropdown cursor--pointer style--none" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="10,20">
                                         <span className="sidebar-header-dropdown__icon">
                                             <svg width="16px" height="10px" viewBox="0 0 16 10" version="1.1" role="icon" title="Menu Icon">
@@ -70,7 +67,9 @@ class Chat extends Component {
                                         </span>
                                     </button>
                                     <div className="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                                        <button className="dropdown-item" data-toggle="modal" data-target="#settingsModal" onClick={this.toggleSettingsModal.bind(this)}>Account Settings</button>
+                                        <Link to="/settings">
+                                            <button className="dropdown-item">Account Settings</button>
+                                        </Link>
                                         <button className="dropdown-item">Another action</button>
                                         <div className="dropdown-divider"></div>
                                         <button className="dropdown-item" onClick={this.props.onClickLogout}>Logout</button>
@@ -124,6 +123,7 @@ class Chat extends Component {
                             {...this.props}
                             addChannel={this.props.addChannel}
                             setChannel={this.props.setChannel}
+                            toggleModal={this.toggleModal.bind(this)}
                         />
                         <UserSection
                             {...this.props}
@@ -135,7 +135,9 @@ class Chat extends Component {
                     {...this.props}
                     addMessage={this.props.addMessage}
                 />
-                <ModalSettings onChangeData={this.onChangeData.bind(this)} show={this.state.isOpen} onClose={this.toggleSettingsModal.bind(this)} />
+                <ModalMoreChannels moreChannels={this.props.moreChannels} onSearchChannels={this.props.onSearchChannels} show={isOpen} onClose={this.toggleModal.bind(this)} />
+                {/* <ModalSettings onChangeData={this.onChangeData.bind(this)} show={isOpen} onClose={this.toggleSettingsModal.bind(this)} /> */}
+                
             </div>
         )
     }

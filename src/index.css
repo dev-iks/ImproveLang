@@ -381,7 +381,7 @@ a:focus, a:hover {
 }
 
 .f-white {
-  color: #E8E8E8;
+  color: rgb(250, 242, 242);
 }
 
 .user__picture {

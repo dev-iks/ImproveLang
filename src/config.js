@@ -1,1 +1,0 @@
-export let  API_URI = "https://localhost:4000";

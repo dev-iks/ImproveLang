@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import Signup from './components/pages/Signup';
 import Home from './components/pages/Home';
 import Chat from './components/pages/Chat';
-
+import Settings from './components/pages/Settings';
 
 import Socket from './Socket';
 import {BrowserRouter as Router, Route, Link, Redirect, withRouter} from 'react-router-dom';
@@ -22,7 +22,9 @@ class App extends Component {
             connected: false,
             loggedIn: false,
             redirect: false,
-            user: ''
+            user: '',
+            isOpen: false,
+            moreChannels: []
         }
     }
 
@@ -42,6 +44,7 @@ class App extends Component {
         socket.on('google signup', this.onSignupGoogle.bind(this));
         socket.on('check login', this.onCheckLoggedin.bind(this));
         socket.on('sign up', this.onSignup.bind(this));
+        socket.on('more channels', this.onMoreChannels.bind(this));
     }
 
     onCheckLoggedin(msg) {
@@ -65,6 +68,15 @@ class App extends Component {
     onLoginGoogle(user) {
         this.socket.emit('google login', user)
         this.onCheckLogin();
+    }
+
+    onMoreChannels(data) {
+        let {moreChannels} = this.state;
+        moreChannels.push(data);
+        this.setState({
+           moreChannels 
+        });
+        console.log(this.state.moreChannels)
     }
 
     onMessageAdd(message) {
@@ -107,6 +119,11 @@ class App extends Component {
         this.socket.emit('channel subscribe');
         this.socket.emit('user subscribe');
         this.onCheckLogin();
+    }
+
+    onSearchChannels(channelName) {
+        console.log(channelName)
+        this.socket.emit('search channels', {channel: channelName});
     }
 
     onDisconnect() {
@@ -159,14 +176,39 @@ class App extends Component {
             this.setState({redirect: true});
         }
     }
+
+    onClick(e) {
+
+    }
+
+    toggleSettingsModal() {
+        this.setState({
+            isOpen: !this.state.isOpen
+        });
+    }
+
+    onChangeData(data) {
+        // console.log(data);
+    }
+
     
     render() {
+        const { user, isOpen } = this.state;
+        if (this.props.redirect) {
+            this.setState({redirect: false});
+            return (
+                <Redirect to={'/'}/>
+            )
+        }
+
         return (
             <Router>
                 <div className="container-fluid">
                     <div>
                         <Route exact path="/" component={Home} />
                         <Route exact path="/tips" component={Tips} />
+                        <Route exact path='/settings' component={Settings}/>
+                        
                         <Route exact path="/contact" render={props => (
                             <Contact onSubmitContactForm={this.onSubmitContactForm.bind(this)} />
                             )} />
@@ -186,7 +228,7 @@ class App extends Component {
                     <div>
                         <Route exact path="/signup" render={props => (
                                 <Signup {...this.state}
-                                        onSignupGoogle={this.onSignupGoogle.bind(this)}
+                                    onSignupGoogle={this.onSignupGoogle.bind(this)}
                                 />
                         )} />
                     </div>
@@ -197,8 +239,9 @@ class App extends Component {
                                 addChannel={this.addChannel.bind(this)}
                                 setChannel={this.setChannel.bind(this)}
                                 setUserName={this.setUserName.bind(this)}
-                                addMessage={this.addMessage.bind(this)} 
-                            />
+                                addMessage={this.addMessage.bind(this)}
+                                onSearchChannels={this.onSearchChannels.bind(this)}
+                            /> 
                         )}/>
                     </div>
                 </div>

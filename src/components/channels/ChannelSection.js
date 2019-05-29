@@ -13,11 +13,24 @@ class ChannelSection extends Component {
         })
     }
 
+    onClickMore(e) {
+
+    }
+
     render() {
         return (
             <div className='support card border-primary'>
-                <div className="card-header bg-primary text-white p-2">
-                    <strong>Channels</strong>
+                <div className="card-header d-flex bg-primary text-white p-2">
+                    <div className="col-md-8">
+                        <strong>Channels</strong>
+                    </div>
+                    <div className="col-md-4">
+                        <div data-toggle="modal" onClick={this.props.toggleModal} data-target="#moreChannelsModal" >
+                            <button id="sidebarChannelsMore" onClick={this.onClickMore.bind(this)} className="nav-more cursor--pointer style--none btn--block">
+                                <span className="f-white">More...</span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 <div className='card-body pb-0 channels'>
                     <ChannelList {...this.props}/>
