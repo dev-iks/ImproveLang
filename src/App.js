@@ -19,6 +19,7 @@ class App extends Component {
             users: [],
             messages: [],
             activeChannel: {},
+            activeTab: '',
             connected: false,
             loggedIn: false,
             redirect: false,
@@ -70,13 +71,12 @@ class App extends Component {
         this.onCheckLogin();
     }
 
-    onMoreChannels(data) {
+    onMoreChannels(channel) {
         let {moreChannels} = this.state;
-        moreChannels.push(data);
+        moreChannels.push.apply(moreChannels, channel);
         this.setState({
-           moreChannels 
+           moreChannels: [...moreChannels] 
         });
-        console.log(this.state.moreChannels)
     }
 
     onMessageAdd(message) {
@@ -106,6 +106,7 @@ class App extends Component {
         this.setState({users});
     }
 
+    // Removing or deleting
     onRemoveUser(removeUser) {
         let {users} = this.state;
         users = users.filter(user => {
@@ -122,7 +123,6 @@ class App extends Component {
     }
 
     onSearchChannels(channelName) {
-        console.log(channelName)
         this.socket.emit('search channels', {channel: channelName});
     }
 
@@ -159,6 +159,18 @@ class App extends Component {
         {channelId: activeChannel.id, body});
     }
 
+    deleteMessage(messageId) {
+        let {activeChannel, messages} = this.state;
+        this.socket.emit("message delete", {
+            channelId: activeChannel.id, 
+            id: messageId 
+        });
+        messages = messages.filter(message => {
+            return message.id !== messageId
+        });
+        this.setState({messages});
+    }
+
     onCheckLogin() {
         let providerID = sessionStorage.getItem('auth_service_id');
         if (providerID) {
@@ -177,6 +189,16 @@ class App extends Component {
         }
     }
 
+    changeStateOfRedirect() {
+        if (this.state.redirect) {
+            this.setState({redirect: false});
+        }
+    }
+
+    changeUsername(username) {
+        this.socket.emit("change username", {username})
+    }
+
     onClick(e) {
 
     }
@@ -191,11 +213,15 @@ class App extends Component {
         // console.log(data);
     }
 
+    clearSearch() {
+        this.setState({ moreChannels: [] });
+    }
     
     render() {
         const { user, isOpen } = this.state;
         if (this.props.redirect) {
             this.setState({redirect: false});
+            console.log(this.state.redirect)
             return (
                 <Redirect to={'/'}/>
             )
@@ -207,7 +233,9 @@ class App extends Component {
                     <div>
                         <Route exact path="/" component={Home} />
                         <Route exact path="/tips" component={Tips} />
-                        <Route exact path='/settings' component={Settings}/>
+                        <Route exact path="/settings" render={props => ( 
+                            <Settings {...this.state} changeUsername={this.changeUsername.bind(this)} />
+                        )} />
                         
                         <Route exact path="/contact" render={props => (
                             <Contact onSubmitContactForm={this.onSubmitContactForm.bind(this)} />
@@ -241,6 +269,9 @@ class App extends Component {
                                 setUserName={this.setUserName.bind(this)}
                                 addMessage={this.addMessage.bind(this)}
                                 onSearchChannels={this.onSearchChannels.bind(this)}
+                                deleteMessage={this.deleteMessage.bind(this)}
+                                clearSearch={this.clearSearch.bind(this)}
+                                changeStateOfRedirect={this.changeStateOfRedirect.bind(this)}
                             /> 
                         )}/>
                     </div>

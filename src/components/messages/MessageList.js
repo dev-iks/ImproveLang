@@ -11,7 +11,7 @@ class MessageList extends Component {
       <ul>{
         this.props.messages.map( message => {
           return(
-            <Message key={message.id} message={message} user={user} />
+            <Message deleteMessage={this.props.deleteMessage} key={message.id} message={message} user={user} />
           )
         })
       }</ul>

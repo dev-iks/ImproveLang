@@ -1,7 +1,9 @@
+@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+
 body {
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+  font-family:  -apple-system, BlinkMacSystemFont, 'Poppins', "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -18,6 +20,12 @@ body {
 
 .fadein-fast {
   animation: fadein 2s;
+}
+
+a, a:hover, a:focus {
+  color: inherit;
+  text-decoration: none;
+  transition: all 0.3s;
 }
 
 @keyframes fadein {
@@ -505,6 +513,12 @@ button.style--none {
   width: 179px;
 }
 
+.modal-body {
+    height: calc(100% + 10px) !important;
+    overflow: scroll !important;
+    padding: 20px 0 !important;
+}
+
 .iconStyle {
   width: 21px;
   height: 21px;
@@ -537,4 +551,74 @@ button.style--none {
 .nav > li {
   position: relative;
   display: block;
+}
+
+.h-100vh {
+  height: 100vh;
+}
+
+.wrapper {
+  display: flex;
+  width: 100%;
+  align-items: stretch;
+}
+
+.wrapper {
+  display: flex;
+  align-items: stretch;
+}
+
+#sidebar {
+  min-width: 250px;
+  max-width: 250px;
+}
+
+#sidebar.active {
+  margin-left: -250px;
+}
+
+#sidebar {
+  min-width: 250px;
+  max-width: 250px;
+  min-height: 100vh;
+}
+
+#sidebar {
+  background: #007bff;
+  color: #fff;
+  transition: all 0.3s;
+}
+
+@media (max-width: 768px) {
+  #sidebar {
+      margin-left: -250px;
+  }
+  #sidebar.active {
+      margin-left: 0;
+  }
+}
+
+#sidebar ul.components {
+  padding: 20px 0;
+  border-bottom: 1px solid #0c9be2;
+}
+
+#sidebar ul p {
+  color: #fff;
+  padding: 10px;
+}
+
+#sidebar ul li a {
+  padding: 10px;
+  font-size: 1.1em;
+  display: block;
+}
+#sidebar ul li a:hover {
+  color: #7386D5;
+  background: #fff;
+}
+
+.cl-10 {
+  flex: 0 0 87%;
+  max-width: 87%;
 }

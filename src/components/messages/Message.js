@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
 import fecha from 'fecha';
 import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
 
 class Message extends Component {
+
+  onClick() {
+    let messageId = this.props.message.id;
+    this.props.deleteMessage(messageId);
+  }
 
   render() {
     let {message, user} = this.props;
@@ -14,6 +21,17 @@ class Message extends Component {
       <li className={'message'}>
         <div className="author">
           <strong>{message.author}</strong>
+          { user.id === message.user_id ?
+            <span className="dropdown">
+              <span role="button" id="dropdownOptions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <FontAwesomeIcon icon={faChevronDown} />
+              </span>
+              <div className="dropdown-menu">
+                <a className="dropdown-item" href="#" onClick={this.onClick.bind(this)}>Delete</a>
+              </div>
+            </span>
+            : ''
+          }
           <i className="timestamp">{createdAt}</i>
         </div>
         <div className="body">{message.body}</div>

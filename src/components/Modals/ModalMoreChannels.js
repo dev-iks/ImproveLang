@@ -1,19 +1,24 @@
 import React, {Component} from 'react';
+import ChannelsResult from '../search/ChannelsResult';
+import PropTypes from 'prop-types'
 
 class ModalMoreChannels extends Component {
 
     onSubmit(e) {
-        e.preventDefault()
-        let node = this.refs
-        this.props.onSearchChannels(node.search.value)
+        e.preventDefault();
+        let moreChannels = this.props.moreChannels.splice(0, this.props.moreChannels.length);
+        this.setState({ moreChannels });
+        let node = this.refs;
+        this.props.onSearchChannels(node.search.value);
+        node.search.value = '';
     }
 
     render() {
-        console.log(this.props.show)
         if(!this.props.show) {
             return null;
         }
         let toggleShow = this.props.show ? 'show' : '';
+        let {moreChannels} = this.props;
 
         return (
             <>
@@ -32,20 +37,15 @@ class ModalMoreChannels extends Component {
                                         <input ref="search" autoFocus={true} className="form-control" type="text" placeholder="Search" aria-label="Search" />
                                     </div>
                                 </form>
-                                <div className="card">
-                                    <div className="card-body">
-                                        {
-                                            this.props.moreChannels.map(channel => {
-                                                return (
-                                                    <>
-                                                        <h5 className="card-title">{channel.name}</h5>
-                                                        <p className="card-text">{channel.purpose}</p>
-                                                    </>
-                                                )
-                                            })
-                                        }
-                                    </div>
-                                </div>
+                                {
+                                    moreChannels.map(channel => {
+                                        return (
+                                            <>
+                                                <ChannelsResult key={channel.id} channelName={channel.name} channelPurpose={channel.purpose} />
+                                            </>
+                                        )
+                                    })
+                                }
                             </div>
                         </div>
                     </div>
@@ -59,6 +59,11 @@ class ModalMoreChannels extends Component {
 const styleBlock = {
     display: "block",
     paddingRight: "15px"
+}
+
+ModalMoreChannels.propTypes = {
+    show: PropTypes.bool,
+    moreChannels: PropTypes.array.isRequired
 }
 
 
